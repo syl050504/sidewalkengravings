@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #81827f;
+            margin: 0;
+            padding: 48px;
+            min-height: 100vh;
+        }
+
+        .archive {
+            width: 85%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .history-title,
+        .content-box,
+        .btn {
+            position: relative;
+            border-style: groove;
+            border-color: #a9aaa5;
+            background-color: transparent;
+        }
+
+        .history-title::after,
+        .content-box::after,
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-width: 9px;
+            border-style: groove;
+            border-color: rgba(125, 126, 121, 0.4);
+            mix-blend-mode: difference;
+            pointer-events: none;
+        }
+
+        .btn::after {
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-width: 7px;
+        }
+
+        .engraved-text {
+            font-family: "Jersey 20", sans-serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin: 0;
+            color: rgba(0, 0, 0, 0.2);
+            text-shadow:
+                -1px -1px 1px rgba(0, 0, 0, 0.5),
+                1px 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .title-link {
+            display: inline-block;
+            text-decoration: none;
+            margin-bottom: 33px;
+        }
+
+        .history-title {
+            display: inline-block;
+            padding: 12px 20px;
+            border-width: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s linear 150ms;
+        }
+
+        .history-title:active {
+            background-color: #999a95;
+            transition: background-color 0s;
+        }
+
+        .history-title h1 {
+            font-size: 55px;
+        }
+
+        /* ---------- Three buttons | drawing box | three buttons ---------- */
+        .stage {
+            display: grid;
+            grid-template-columns: 170px minmax(0, 1fr) 170px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .tools {
+            display: flex;
+            flex-direction: column;
+            gap: 29px;
+            font-family: "Jersey 20", sans-serif;
+        }
+
+        .btn {
+            font: inherit;
+            width: 88%;
+            padding: 11px 18px 12px;
+            border-width: 6px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 35px;
+            transition: background-color 0.2s linear 150ms;
+        }
+
+        .btn:active,
+        .btn.on {
+            background-color: #999a95;
+            transition: background-color 0s;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid #111;
+            outline-offset: 8px;
+        }
+
+
+        .content-box {
+            width: 100%;
+            height: 350px;
+            padding: 8px;
+            border-width: 8px;
+            overflow: visible;
+        }
+
+        #slab {
+            display: block;
+            width: 100%;
+            height: 315px;
+            cursor: crosshair;
+            touch-action: none;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+        }
+
+        .note {
+            font-family: "biz udgothic", sans-serif;
+            font-size: 17px;
+            line-height: 1.2;
+            color: #111;
+            margin: 28px 8px 0;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px;
+            }
+
+            .archive {
+                width: 100%;
+            }
+
+            .history-title h1 {
+                font-size: 40px;
+            }
+
+            .btn {
+                font-size: 26px;
+                padding: 4px 6px 6px;
+            }
+
+            .stage {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .tools {
+                flex-direction: row;
+                gap: 16px;
+                padding-top: 6px;
+            }
+
+            .tools .btn {
+                flex: 1;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="archive">
+
+        <a href="contents.html" class="title-link"
+            onclick="event.preventDefault(); setTimeout(() => window.location.href = this.href, 250);">
+            <div class="history-title">
+                <h1 class="engraved-text">Create</h1>
+            </div>
+        </a>
+
+        <div class="stage">
+            <div class="tools">
+                <button class="btn engraved-text on" id="pen">PEN</button>
+                <button class="btn engraved-text" id="bird">BIRD</button>
+                <button class="btn engraved-text" id="human">HUMAN</button>
+            </div>
+
+            <div class="content-box">
+                <canvas id="slab" aria-label="Wet concrete. Draw with a mouse, finger or stylus."></canvas>
+            </div>
+
+            <div class="tools">
+                <button class="btn engraved-text" id="pour">POUR</button>
+                <button class="btn engraved-text" id="dry">DRY</button>
+                <button class="btn engraved-text" id="save" disabled>SAVE</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const W = 1600, H = 700;
+        const $ = (s) => document.querySelector(s);
+        const canvas = $('#slab');
+        canvas.width = W;
+        canvas.height = H;
+        const ctx = canvas.getContext('2d');
+
+        function makeLayer(w = W, h = H) {
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            return c;
+        }
+        const ink = makeLayer(), inkW = makeLayer();
+        const ix = ink.getContext('2d'), iw = inkW.getContext('2d');
+        ix.strokeStyle = ix.fillStyle = '#000';
+        iw.strokeStyle = iw.fillStyle = '#fff';
+        [ix, iw].forEach(c => { c.lineCap = 'round'; c.lineJoin = 'round'; });
+
+        // Speckle texture for the concrete
+        const grain = makeLayer(256, 256);
+        (() => {
+            const g = grain.getContext('2d');
+            const d = g.createImageData(256, 256);
+            for (let i = 0; i < d.data.length; i += 4) {
+                const v = Math.random() * 255;
+                d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
+                d.data[i + 3] = 255;
+            }
+            g.putImageData(d, 0, 0);
+        })();
+        const grainPattern = ctx.createPattern(grain, 'repeat');
+
+        const WET = [75, 74, 70];      // freshly poured
+        const DRY = [129, 130, 127];   // matches the page, so it looks embedded like the titles
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        let t = 0;            // 0 = wet, 1 = dry
+        let mode = 'wet';     // wet | drying | dry
+        let anim = 0;
+
+        function render() {
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = `rgb(${WET.map((v, i) => Math.round(lerp(v, DRY[i], t)))})`;
+            ctx.fillRect(0, 0, W, H);
+
+            ctx.globalAlpha = lerp(0.05, 0.12, t);
+            ctx.fillStyle = grainPattern;
+            ctx.fillRect(0, 0, W, H);
+
+            const o = lerp(3, 1.5, t); // edge depth: deep groove when wet, subtle when dry
+            ctx.globalAlpha = lerp(0.85, 0.5, t); ctx.drawImage(ink, -o, -o);   // shadow, up-left
+            ctx.globalAlpha = lerp(0.4, 0.3, t); ctx.drawImage(inkW, o, o);    // light, down-right
+            ctx.globalAlpha = lerp(0.7, 0.2, t); ctx.drawImage(ink, 0, 0);     // the cut itself
+            ctx.globalAlpha = 1;
+        }
+
+        // ---------- Brushes ----------
+        const PEN_WIDTH = 14;
+        let tool = 'pen';            // pen | bird | human
+        const STEP = { bird: 46, human: 130 };   // distance between footprints
+        const OFFSET = { bird: 11, human: 24 };  // how far each foot sits to the side of the path
+
+        // Bird track: three toes forward, one short toe back. Local +x = direction of travel.
+        function birdFoot(c) {
+            c.lineWidth = 4.5;
+            c.beginPath();
+            for (const a of [-0.62, 0, 0.62]) {
+                c.moveTo(0, 0);
+                c.lineTo(Math.cos(a) * 24, Math.sin(a) * 24);
+            }
+            c.moveTo(0, 0);
+            c.lineTo(-12, 0);
+            c.stroke();
+        }
+
+        // Human foot: heel, ball, arch, and five toes. "side" flips it for left vs right.
+        function humanFoot(c, side) {
+            const k = -side; // +1 puts the big toe on the +y side (the inside of the foot)
+            c.beginPath(); c.ellipse(-27, 0, 11, 10.5, 0, 0, Math.PI * 2); c.fill();
+            c.beginPath(); c.ellipse(8, 0, 17, 15, 0, 0, Math.PI * 2); c.fill();
+            c.lineWidth = 14;
+            c.beginPath(); c.moveTo(-27, -k * 2); c.lineTo(8, -k * 2); c.stroke();
+            for (const [x, y, r] of [[37, 6, 6.5], [38, -3, 4.8], [34, -9.5, 4.2], [29, -15, 3.7], [23, -19.5, 3.2]]) {
+                c.beginPath(); c.arc(x, y * k, r, 0, Math.PI * 2); c.fill();
+            }
+        }
+
+        let flip = false;
+        function stamp(p, ang) {
+            flip = !flip;
+            const side = flip ? 1 : -1;
+            for (const c of [ix, iw]) {
+                c.save();
+                c.translate(p.x, p.y);
+                c.rotate(ang);
+                c.translate(0, side * OFFSET[tool]);
+                if (tool === 'bird') birdFoot(c); else humanFoot(c, side);
+                c.restore();
+            }
+        }
+
+        // ---------- Drawing ----------
+        let drawing = false, last = null;
+        let heading = null, acc = 0, traveled = 0;
+
+        function pos(e) {
+            const r = canvas.getBoundingClientRect();
+            return { x: (e.clientX - r.left) * (W / r.width), y: (e.clientY - r.top) * (H / r.height) };
+        }
+
+        function carve(a, b) {
+            for (const c of [ix, iw]) {
+                c.lineWidth = PEN_WIDTH;
+                c.beginPath();
+                c.moveTo(a.x, a.y);
+                c.lineTo(b.x + 0.01, b.y + 0.01); // tiny offset so a single tap leaves a dot
+                c.stroke();
+            }
+        }
+
+        // Drop footprints at even spacing along a segment, facing the (smoothed) direction of travel
+        function walk(a, b) {
+            let d = Math.hypot(b.x - a.x, b.y - a.y);
+            if (!d || heading === null) return;
+            const ux = (b.x - a.x) / d, uy = (b.y - a.y) / d;
+            const step = STEP[tool];
+            const p = { x: a.x, y: a.y };
+            let need = step - acc;
+            while (d >= need) {
+                p.x += ux * need; p.y += uy * need;
+                d -= need; acc = 0; need = step;
+                stamp(p, heading);
+            }
+            acc += d;
+        }
+
+        canvas.addEventListener('pointerdown', (e) => {
+            if (mode !== 'wet') return;
+            drawing = true;
+            canvas.setPointerCapture(e.pointerId);
+            last = pos(e);
+            heading = null; traveled = 0;
+            acc = tool === 'pen' ? 0 : STEP[tool] * 0.6; // first print lands after a short drag
+            if (tool === 'pen') { carve(last, last); render(); }
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (!drawing) return;
+            const events = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+            for (const ev of (events.length ? events : [e])) {
+                const p = pos(ev);
+                const d = Math.hypot(p.x - last.x, p.y - last.y);
+                if (tool === 'pen') {
+                    carve(last, p);
+                } else {
+                    if (d > 1.5) {
+                        const ang = Math.atan2(p.y - last.y, p.x - last.x);
+                        if (heading === null) heading = ang;
+                        else {
+                            const diff = ((ang - heading + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+                            heading += diff * 0.2; // smooth, so prints don't jitter
+                        }
+                    }
+                    walk(last, p);
+                }
+                traveled += d;
+                last = p;
+            }
+            render();
+        });
+
+        canvas.addEventListener('pointerup', () => {
+            // a quick tap with a footprint brush leaves one print, pointing up
+            if (drawing && tool !== 'pen' && traveled < 4) { stamp(last, -Math.PI / 2); render(); }
+            drawing = false;
+        });
+        canvas.addEventListener('pointercancel', () => { drawing = false; });
+
+        // ---------- Buttons ----------
+        const toolBtns = { pen: $('#pen'), bird: $('#bird'), human: $('#human') };
+        const dry = $('#dry'), save = $('#save'), pour = $('#pour');
+
+        function updateUI() {
+            for (const [name, btn] of Object.entries(toolBtns)) {
+                btn.classList.toggle('on', mode === 'wet' && tool === name);
+                btn.disabled = mode !== 'wet';
+            }
+            dry.disabled = mode !== 'wet';
+            save.disabled = mode !== 'dry';
+            canvas.style.cursor = mode === 'wet' ? 'crosshair' : 'default';
+        }
+
+        function animateTo(target, ms, done) {
+            cancelAnimationFrame(anim);
+            const from = t, start = performance.now();
+            const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            (function step(now) {
+                const p = reduce ? 1 : Math.min(1, (now - start) / ms);
+                const e = p * p * (3 - 2 * p);
+                t = lerp(from, target, e);
+                render();
+                if (p < 1) anim = requestAnimationFrame(step);
+                else if (done) done();
+            })(start);
+        }
+
+        toolBtns.pen.addEventListener('click', () => {
+            tool = 'pen';
+            updateUI();
+        });
+        toolBtns.bird.addEventListener('click', () => { tool = 'bird'; updateUI(); });
+        toolBtns.human.addEventListener('click', () => { tool = 'human'; updateUI(); });
+
+        dry.addEventListener('click', () => {
+            if (mode !== 'wet') return;
+            mode = 'drying';
+            drawing = false;
+            updateUI();
+            animateTo(1, 2400, () => { mode = 'dry'; updateUI(); });
+        });
+
+        pour.addEventListener('click', () => {
+            for (const c of [ix, iw]) c.clearRect(0, 0, W, H);
+            mode = 'wet';
+            drawing = false;
+            updateUI();
+            animateTo(0, 700);
+        });
+
+        save.addEventListener('click', () => {
+            canvas.toBlob((blob) => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'engraving.png';
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+            });
+        });
+
+        updateUI();
+        render();
+    </script>
+</body>
+
+</html>

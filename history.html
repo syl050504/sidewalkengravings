@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+ 
+        body {
+            background-color: #81827f;
+
+            margin: 0;
+            padding: 48px;
+
+            min-height: 100vh;
+        }
+ 
+        .archive {
+            width: 75%;
+            max-width: 1100px;
+
+            margin: 0 auto;
+        } 
+
+        .history-title {
+            display: inline-block;
+
+            padding: 12px 20px;
+
+            border-width: 8px;
+            border-style: groove;
+            border-color: #a9aaa5;
+
+            position: relative;
+
+            margin-bottom: 33px;
+        }
+
+
+        .history-title::after {
+            content: "";
+
+            position: absolute;
+
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+
+            border-width: 9px;
+            border-style: groove;
+            border-color: rgba(125, 126, 121, 0.4);
+
+            mix-blend-mode: difference;
+
+            pointer-events: none;
+        }
+
+
+        .history-title h1 {
+            font-family: "Jersey 20", sans-serif;
+
+            font-weight: 400;
+            font-style: normal;
+
+            font-size: 55px;
+
+            letter-spacing: 2px;
+
+            margin: 0;
+
+            color: rgba(0, 0, 0, 0.2);
+
+            text-shadow:
+                -1px -1px 1px rgba(0, 0, 0, 0.5),
+                1px 1px 1px rgba(255, 255, 255, 0.3);
+        }
+ 
+        .boxes {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+ 
+        .content-box {
+            position: relative;
+
+            width: 100%;
+
+            padding: 10px;
+
+            border-width: 8px;
+            border-style: groove;
+            border-color: #a9aaa5;
+
+            display: flex;
+
+            flex-direction: row;
+
+            gap: 10px;
+
+            align-items: center;
+
+            background-color: transparent;
+
+            overflow: visible;
+        }
+
+
+        .content-box::after {
+            content: "";
+
+            position: absolute;
+
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+
+            border-width: 9px;
+            border-style: groove;
+            border-color: rgba(125, 126, 121, 0.4);
+
+            mix-blend-mode: difference;
+
+            pointer-events: none;
+        }
+
+ 
+        .history-text {
+            font-family: "BIZ UDGothic", sans-serif;
+
+            font-size: 17px;
+
+            line-height: 1.2;
+
+            width: 60%;
+
+            flex: 0 0 60%;
+
+            margin: 0;
+
+            padding: 10px 28px 10px 10px;
+
+            color: #111;
+
+            cursor: default;
+        }
+
+
+
+        .image-container {
+            width: 40%;
+
+            flex: 0 0 40%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            opacity: 0;
+
+            transition: opacity 0.12s ease;
+        }
+
+
+        .image-container img {
+            width: 100%;
+
+            height: auto;
+
+            display: block;
+
+            object-fit: contain;
+        }
+
+
+
+        .content-box:has(.history-text:hover) .image-container {
+            opacity: 1;
+        }
+    </style>
+ 
+</head>
+
+<body>
+
+    <div class="archive">
+
+        <div class="history-title">
+            <h1>The History</h1>
+        </div>
+
+        <div class="boxes">
+            <div class="content-box">
+                <p class="history-text">
+                    Engraving is one of the oldest ways humans have altered a surface to create an image or record
+                    information. Long before paper, printing, or photography, people carved directly into stone, bone,
+                    clay, and other durable materials. Some of the earliest known engraved objects come from prehistoric
+                    societies, including engraved bones, stones, and cave surfaces. In caves such as Chauvet in southern
+                    France, prehistoric artists used stone tools to incise images of animals directly into the rock.
+                    Rather than adding pigment to the surface, engraving created an image by cutting into it. The
+                    resulting line was therefore both an image and a physical alteration of the material itself.
+                </p>
+                <div class="image-container">
+                    <img src="history/1.jpg" alt="Prehistoric engraving">
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="image-container">
+                    <img src="history/2.jpg" alt="Ancient Mesopotamian engraving">
+                </div>
+                <p class="history-text">
+                    In ancient Mesopotamia, engraving became closely connected to identification and administration. By
+                    the fourth millennium BCE, cylinder seals were being carved with images, symbols, and eventually
+                    cuneiform inscriptions. When a carved cylinder was rolled across wet clay, its design was
+                    transferred onto the surface, creating an impression that could identify a person, authorize a
+                    transaction, or mark ownership. The engraved object could therefore carry an individual’s identity
+                    beyond their physical presence. A name or symbol was no longer only something that could be seen or
+                    spoken; it became something embedded in an object and recognizable through repeated use.
+                </p>
+            </div>
+
+            <div class="content-box">
+                <p class="history-text">
+                    Engraved writing also became increasingly important in the ancient Mediterranean world. Egyptians,
+                    Greeks, and Romans carved names, religious dedications, laws, records, and commemorations into stone
+                    and other materials. Public inscriptions were often deliberately placed where they could be seen and
+                    preserved. Funerary inscriptions were particularly concerned with names: carving a person’s name
+                    into a tomb or monument helped maintain their identity after death. Stone offered an appearance of
+                    permanence, allowing words and names to survive long after the person who commissioned or created
+                    them was gone.
+                </p>
+                <div class="image-container">
+                    <img src="history/3.png" alt="Ancient inscription">
+                </div>
+            </div>
+
+
+            <div class="content-box">
+
+                <div class="image-container">
+
+                    <img src="history/4.png" alt="Ancient graffiti">
+
+                </div>
+
+
+                <p class="history-text">
+
+                    Not all ancient inscriptions were monumental, however. At Pompeii and Herculaneum, people scratched
+                    names, drawings, greetings, jokes, political messages, declarations of affection, and other everyday
+                    communications into walls and architectural surfaces. These inscriptions provide evidence of
+                    ordinary people who otherwise left very little record of their lives. A name scratched into a wall
+                    could be informal and temporary in intention, yet become unexpectedly permanent through
+                    preservation. The same surface that carried official inscriptions could also carry the small,
+                    personal marks of people simply passing through.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

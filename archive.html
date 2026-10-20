@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        :root {
+            --edge: calc((100vw - min(75vw, 1100px)) / 2);
+            --body-pad: 48px;
+        }
+        body { background-color: #81827f; margin: 0; padding: var(--body-pad); min-height: 80vh; }
+        .archive { width: 75%; max-width: 1100px; margin: 0 auto; }
+        .title-link { display: inline-block; text-decoration: none; margin-bottom: 33px; }
+        .history-title {
+            display: inline-block; padding: 12px 20px;
+            border-width: 8px; border-style: groove; border-color: #a9aaa5;
+            position: relative; cursor: pointer; user-select: none;
+            transition: background-color 0.2s linear 150ms;
+        }
+        .history-title:active { background-color: #999a95; transition: background-color 0s; }
+        .history-title::after {
+            content: ""; position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border-width: 9px; border-style: groove; border-color: rgba(125, 126, 121, 0.4);
+            mix-blend-mode: difference; pointer-events: none;
+        }
+        .engraved-text {
+            font-family: "Jersey 20", sans-serif; font-weight: 400; font-style: normal;
+            font-size: 55px; letter-spacing: 2px; margin: 0; color: rgba(0, 0, 0, 0.2);
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5), 1px 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        /* ---------- Continuous sideways strip ---------- */
+        .strip {
+            display: flex; flex-direction: row; align-items: center; gap: 0;
+            margin: 0 calc(var(--body-pad) * -1);
+            padding: 20px 30px;
+            overflow-x: auto; overflow-y: auto; overscroll-behavior-x: contain;
+            cursor: grab;
+            scrollbar-width: thin; scrollbar-color: #a9aaa5 transparent;
+        }
+
+        /* ---------- Engraved frame around each image ---------- */
+        /* thin dark groove with a pale lip, same as the earlier sidewalk joints.
+           Frames touch each other; margin-left overlaps the shared edge so it stays one line. */
+        .frame {
+            flex: 0 0 auto;
+            padding: 17px;
+            border: 3px solid rgba(0, 0, 0, 0.28);
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.16);
+        }
+        .frame + .frame { margin-left: -3px; }
+
+        .strip.grabbing { cursor: grabbing; user-select: none; }
+        .strip:focus-visible { outline: none; }
+        .strip img {
+            flex: 0 0 auto; display: block;
+            height: clamp(260px, 62vh, 420px); width: auto;
+            filter: url(#engrave);
+            -webkit-user-drag: none; user-select: none;
+        }
+        @media (max-width: 700px) {
+            :root { --body-pad: 20px; --edge: 20px; }
+            .archive { width: 100%; }
+            .engraved-text { font-size: 40px; }
+            .strip { gap: 0; }
+            .strip img { height: clamp(220px, 50vh, 400px); }
+        }
+    </style>
+</head>
+<body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="engrave" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+            <feColorMatrix type="matrix" values="
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+               -0.33 -0.33 -0.33 0 1" />
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="3" intercept="-1" />
+            </feComponentTransfer>
+            <feComposite in2="SourceAlpha" operator="in" result="shape" />
+            <feColorMatrix in="shape" type="matrix" result="fill" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 0.2 0" />
+            <feOffset in="shape" dx="-1" dy="-1" result="o1" />
+            <feGaussianBlur in="o1" stdDeviation="0.5" result="b1" />
+            <feFlood flood-color="#000" flood-opacity="0.5" />
+            <feComposite in2="b1" operator="in" result="darkShadow" />
+            <feOffset in="shape" dx="1" dy="1" result="o2" />
+            <feGaussianBlur in="o2" stdDeviation="0.5" result="b2" />
+            <feFlood flood-color="#fff" flood-opacity="0.3" />
+            <feComposite in2="b2" operator="in" result="lightShadow" />
+            <feMerge>
+                <feMergeNode in="darkShadow" />
+                <feMergeNode in="lightShadow" />
+                <feMergeNode in="fill" />
+            </feMerge>
+        </filter>
+    </svg>
+
+    <div class="archive">
+        <a href="contents.html" class="title-link"
+            onclick="event.preventDefault(); setTimeout(() => window.location.href = this.href, 250);">
+            <div class="history-title">
+                <h1 class="engraved-text">The Archive</h1>
+            </div>
+        </a>
+    </div>
+
+    <!-- To add an engraving, copy one <img> line and change the path -->
+    <div class="strip" id="strip" tabindex="0" aria-label="Archive of engravings, scroll sideways">
+        <img src="contrast/01.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/2.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/03.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/4.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/5.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/6.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/07.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/08.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/09.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/10.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/11.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/12.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/13.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/14.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/15.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/16_.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/17.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/18.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/19.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/20.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/21.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/22.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/23.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/24.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/26.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/28.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/29.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/30.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/31.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/32.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/33.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/34.jpg" alt="Concrete engraving" draggable="false">
+        <img src="contrast/35.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/36.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/37.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/38.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/39.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/40.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/41.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/42.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/43.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/44.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/45.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/46.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/47.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/48.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/49.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/50.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/51.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/52.png" alt="Concrete engraving" draggable="false">
+        <img src="contrast/53.png" alt="Concrete engraving" draggable="false">
+
+
+
+
+    </div>
+
+    <script>
+        const strip = document.getElementById('strip');
+
+        // Wrap each image in an engraved frame (so new <img> lines get one automatically)
+        strip.querySelectorAll('img').forEach((img) => {
+            const frame = document.createElement('div');
+            frame.className = 'frame';
+            img.replaceWith(frame);
+            frame.appendChild(img);
+        });
+        strip.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                strip.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+
+        let down = false, startX = 0, startLeft = 0;
+        strip.addEventListener('pointerdown', (e) => {
+            if (e.pointerType !== 'mouse') return;
+            down = true; startX = e.clientX; startLeft = strip.scrollLeft;
+            strip.classList.add('grabbing');
+        });
+        window.addEventListener('pointermove', (e) => {
+            if (!down) return;
+            strip.scrollLeft = startLeft - (e.clientX - startX);
+        });
+        const release = () => { down = false; strip.classList.remove('grabbing'); };
+        window.addEventListener('pointerup', release);
+        window.addEventListener('pointercancel', release);
+    </script>
+</body>
+</html>
